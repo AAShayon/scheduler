@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: (context ,child){
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
