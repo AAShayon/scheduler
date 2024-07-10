@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/modules/home/view/home_screen.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
+import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
 
 void main(){
   runApp(const MyApp());
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       builder: (context ,child){
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (context)=>HomeScreenViewModel())
+            ChangeNotifierProvider(create: (context)=>HomeScreenViewModel()),
+            ChangeNotifierProvider(create: (context)=>TimelineViewModel())
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
