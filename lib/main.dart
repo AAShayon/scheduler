@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:scheduler/modules/home/view/home_screen.dart';
+import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 
 void main(){
   runApp(const MyApp());
@@ -21,18 +23,23 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       designSize: const Size(375, 812),
       builder: (context ,child){
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
-          textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-          ),
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context)=>HomeScreenViewModel())
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
+            textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
+            appBarTheme: AppBarTheme(
+              color: Colors.white,
+            ),
 
-        ),
-          home:const HomeScreen(),
+          ),
+            home:const HomeScreen(),
+          ),
         );
       },
     );
