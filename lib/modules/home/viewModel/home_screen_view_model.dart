@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 class HomeScreenViewModel with ChangeNotifier {
   final DateTime joinDate = DateTime(2024, 1, 1);
   final DateTime endDate = DateTime(2030, 1, 31);
-  // String _todayDateInBangla = '';
-  //
-  // String get todayDateInBangla => _todayDateInBangla;
 
   Duration get elapsedDuration => DateTime.now().difference(joinDate);
 
