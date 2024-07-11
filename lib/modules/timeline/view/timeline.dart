@@ -246,8 +246,10 @@ class _TimelineState extends State<Timeline> {
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (context, index) {
-                                final data = timelineViewModel.allData![index];
-                                log('total data ${timelineViewModel.allData!.length}');
+                                final allData = timelineViewModel.allData!;
+                                allData.sort((a, b) => a.date!.compareTo(b.date!));
+                                final data=allData[index];
+                                log('total allData ${timelineViewModel.allData!.length}');
                                 return Container(
                                   child: Padding(
                                     padding:  EdgeInsets.symmetric(vertical: 10.h),
