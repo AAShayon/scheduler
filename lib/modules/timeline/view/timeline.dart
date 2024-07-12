@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduler/modules/timeline/view/widgets/add_new.dart';
 import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
+import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/text_style.dart';
 
 class Timeline extends StatefulWidget {
@@ -30,21 +32,6 @@ class _TimelineState extends State<Timeline> {
   }
 
 
-  // String greeting(String? timestamp, BuildContext context) {
-  //   if (timestamp == null) {
-  //     return 'Unknown time';
-  //   }
-  //   final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
-  //   final timeOfDay = TimeOfDay.fromDateTime(dateTime);
-  //   final period = timeOfDay.period == DayPeriod.am
-  //       ? 'সকাল'
-  //       : (timeOfDay.hour < 16 ? 'দুপুর' : (timeOfDay.hour < 20 ? 'বিকেল' : (timeOfDay.hour < 22 ? 'সন্ধা' : 'রাত')));
-  //   final formattedTime = timeOfDay.format(context);
-  //   return '$period  $formattedTime'; //$formattedTime
-  // }
-
-
-
   @override
   Widget build(BuildContext context) {
     return Consumer<TimelineViewModel>(builder: (context, timelineViewModel, child) {
@@ -57,7 +44,7 @@ class _TimelineState extends State<Timeline> {
         appBar: AppBar(
           title: Text(
             'সময়রেখা',
-            style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w700, 16.sp, const Color(0xff000000)),
+            style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w700, 16.sp, AppColors.colorBlack2),
           ),
           centerTitle: true,
           actions: [
@@ -75,7 +62,7 @@ class _TimelineState extends State<Timeline> {
                   width: 35.sp,
                   height: 35.sp,
                   decoration: BoxDecoration(
-                      color: const Color(0xffF4F5F6),
+                      color: AppColors.containerBoxDecoration,
                       borderRadius: BorderRadius.circular(100)),
                   child: Stack(
                     children: [
@@ -87,7 +74,7 @@ class _TimelineState extends State<Timeline> {
                             width: 6.19.sp,
                             height: 6.19.sp,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: AppColors.colorPink,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           )
@@ -107,7 +94,7 @@ class _TimelineState extends State<Timeline> {
                             width: 6.19.sp,
                             height: 6.19.sp,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: AppColors.colorPink,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           )
@@ -133,25 +120,23 @@ class _TimelineState extends State<Timeline> {
                   children: [
                     Text(
                       timelineViewModel.todayDateInBangla,
-                      style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w700, 16.sp, const Color(0xff202020)),
+                      style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w700, 16.sp,  AppColors.colorBlack),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddNew()));
+                      },
                       child: Container(
                           height: 29.h,
                           width: 100.w,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [Color(0xff86B560), Color(0xff336F4A)],
-                                stops: [0.0, 1.0],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomRight,
-                              )),
+                              gradient: AppColors.linearGradient,
+                          ),
                           child: Center(
                             child: Text(
                               'নতুন যোগ করুন',
-                              style: TextStyles.myCustomStyle(1.38.sp, FontWeight.w700, 12.sp, const Color(0xffFDFDFD)),
+                              style: TextStyles.myCustomStyle(1.38.sp, FontWeight.w700, 12.sp, AppColors.colorWhite3),
                             ),
                           )),
                     )
@@ -163,10 +148,10 @@ class _TimelineState extends State<Timeline> {
                   height: 98.h,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xffFDFDFD),
+                      color: AppColors.colorWhite3,
                       boxShadow: [
                         BoxShadow(
-                            color: const Color(0xff000000).withOpacity(.16),
+                            color: AppColors.colorBlack2.withOpacity(.16),
                             blurRadius: 6,
                             offset: const Offset(0, 0))
                       ]),
@@ -174,7 +159,7 @@ class _TimelineState extends State<Timeline> {
                     padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                     child: GridView.builder(
                         controller: ScrollController(
-                          initialScrollOffset: currentIndex * (100 + 10).toDouble(),
+                          initialScrollOffset: currentIndex * (80 + 10).toDouble(),
                           keepScrollOffset: true,
                         ),
                         itemCount: timelineViewModel.dateRange.length,
@@ -202,9 +187,9 @@ class _TimelineState extends State<Timeline> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(dayName,
-                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, const Color(0xff6a6a6a))),
+                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
                                   Text(timelineViewModel.getDayNumber(date),
-                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp, const Color(0xff202020))),
+                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
                                 ],
                               ),
                             ),
@@ -220,10 +205,10 @@ class _TimelineState extends State<Timeline> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
-                      border: Border.all(color: const Color(0xffFDFDFD)),
+                      border: Border.all(color: AppColors.colorWhite3),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xff000000).withOpacity(.16),
+                          color: AppColors.colorBlack2.withOpacity(.16),
                           blurRadius: 6,
                           offset: const Offset(1, 1),
                           spreadRadius: 0,
@@ -237,7 +222,7 @@ class _TimelineState extends State<Timeline> {
                         SizedBox(height: 10.h),
                         Text(
                           'আজকের কার্যক্রম',
-                          style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp, const Color(0xff202020)),
+                          style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorBlack),
                         ),
                         SizedBox(height: 10.h),
                         Expanded(
@@ -265,12 +250,12 @@ class _TimelineState extends State<Timeline> {
                                             children: [
                                               Text(
                                                 timelineViewModel.greeting(data.date.toString(), context)['period'] ?? 'Unknown time',
-                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, const Color(0xff2A61EE)),
+                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.textColorBlue),
                                               ),
                                               SizedBox(height: 2.h,),
                                               Text(
                                                 "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'} মি.",
-                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, const Color(0xff2A61EE)),
+                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.textColorBlue),
                                               ),
 
                                             ],
@@ -281,13 +266,10 @@ class _TimelineState extends State<Timeline> {
                                           width:207.w ,
                                           // margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                                           decoration: BoxDecoration(
-                                            color: index % 2 == 0 ? const Color(0xff202020) : null,
+                                            color: index % 2 == 0 ?  AppColors.colorBlack : null,
                                             gradient: index % 2 == 0
                                                 ? null
-                                                : const LinearGradient(
-                                              colors: [Color(0xff86B560), Color(0xff336F4A)],
-                                              stops: [0.0, 1.0],
-                                            ),
+                                                : AppColors.linearGradient,
                                             borderRadius: BorderRadius.circular(8.0),
                                           ),
                                           child: Padding(
@@ -298,11 +280,11 @@ class _TimelineState extends State<Timeline> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    const Icon(Icons.access_time, color: Colors.white),
+                                                     const Icon(Icons.access_time, color: AppColors.primaryColor),
                                                     SizedBox(width: 8.w),
                                                     Text(
                                                      "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'}মি.",
-                                                      style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, const Color(0xffFDFDFD)),
+                                                      style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
                                                     ),
                                                   ],
                                                 ),
@@ -310,13 +292,13 @@ class _TimelineState extends State<Timeline> {
                                                 Expanded(
                                                   child: Text(
                                                     "${data.name}",
-                                                    style: const TextStyle(color: Colors.white),
+                                                      style: TextStyles.myCustomStyle(1.sp, FontWeight.w600, 14.sp, AppColors.colorWhite3),
                                                   ),
                                                 ),
                                                 SizedBox(height: 8.h),
                                                 Text(
                                                   '${data.category}',
-                                                  style: const TextStyle(color: Colors.white),
+                                                  style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
                                                 ),
                                                 SizedBox(height: 8.h),
                                                 Row(
@@ -325,7 +307,7 @@ class _TimelineState extends State<Timeline> {
                                                     SizedBox(width: 8.w),
                                                     Text(
                                                       '${data.location}',
-                                                      style: const TextStyle(color: Colors.white),
+                                                      style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
                                                     ),
                                                   ],
                                                 ),
