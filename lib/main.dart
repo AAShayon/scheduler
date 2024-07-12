@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduler/modules/auth/viewModel/auth_view_model.dart';
+ 
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
 import 'package:scheduler/view/landing_screen.dart';
 import 'package:scheduler/view/utils/colors.dart';
-import 'package:scheduler/view/widgets/login_page.dart';
+import 'package:scheduler/modules/auth/view/login_page.dart';
 import 'package:scheduler/viewModel/landing_screen_view_model.dart';
 
 void main(){
@@ -31,12 +31,11 @@ class MyApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context)=>LandingScreenViewModel()),
-            ChangeNotifierProvider(create: (context)=>AuthViewModel()),
             ChangeNotifierProvider(create: (context)=>HomeScreenViewModel()),
             ChangeNotifierProvider(create: (context)=>TimelineViewModel())
           ],
-          child: Consumer<AuthViewModel>(
-            builder: (context,authViewModel,child) {
+          child: Consumer<HomeScreenViewModel>(
+            builder: (context,homeScreenViewModel,child) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
               theme: ThemeData(
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
 
               ),
                 home: FutureBuilder(
-                  future: authViewModel.isLoggedIn(),
+                  future: homeScreenViewModel.isLoggedIn(),
                   builder: (context, AsyncSnapshot<bool> snapshot){
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
