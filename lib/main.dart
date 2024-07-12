@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
                     return snapshot.data! ? LandingScreen() : LoginPage();
                   },
                 ),
+
               );
             }
           ),

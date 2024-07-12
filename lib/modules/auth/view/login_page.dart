@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduler/modules/auth/viewModel/auth_view_model.dart';
+import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/view/landing_screen.dart';
 import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/custom_textform_field.dart';
 import 'package:scheduler/view/utils/text_style.dart';
-import 'package:scheduler/viewModel/landing_screen_view_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -195,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                               const SnackBar(content: Center(child: Text('ছবি নির্বাচন করুন')))
                           );
                         } else {
-                          await Provider.of<AuthViewModel>(context, listen: false).login(
+                          await Provider.of<HomeScreenViewModel>(context, listen: false).login(
                             name: _nameController.text,
                             startDate: _startDateController.text,
                             endDate: _endDateController.text,

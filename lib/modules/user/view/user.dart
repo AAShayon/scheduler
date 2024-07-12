@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduler/modules/auth/viewModel/auth_view_model.dart';
-import 'package:scheduler/view/widgets/login_page.dart';
-import 'package:scheduler/viewModel/landing_screen_view_model.dart';
+import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
+import 'package:scheduler/modules/auth/view/login_page.dart';
 import 'dart:convert';
 
 class User extends StatelessWidget {
@@ -10,7 +9,7 @@ class User extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<AuthViewModel>(context);
+    final model = Provider.of<HomeScreenViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(

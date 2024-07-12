@@ -213,10 +213,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp, AppColors.colorBlack),
                                   ),
 
-                                  // Text(
-                                  //   '১ই জানুয়ারি ২০২৪ - ৩১ই জানুয়ারি ২০৩০',
-                                  //   style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp,  AppColors.colorBlack),
-                                  // ),
                                 ],
                               ),
                               SizedBox(height: 10.h,),
@@ -267,6 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       ),
                       itemBuilder: (context,index) {
+                        String menuNumber =homeScreenViewModel.convertToBanglaDigits((index + 1).toString().padLeft(5, '0'));
                         return Container(
                           height: 124.h,
                           width: 80.w,
@@ -282,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(height: 2.h,),
                               Text('মেনু নং',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
                               SizedBox(height: 2.h,),
-                              Text('০০০০১',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
+                              Text(menuNumber,style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
                             ],
                           ),
                         );
