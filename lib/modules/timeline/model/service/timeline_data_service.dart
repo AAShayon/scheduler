@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:scheduler/model/core/api_urls.dart';
-import 'package:scheduler/model/service/api_error_handler.dart';
-import 'package:scheduler/model/service/api_response.dart';
-import 'package:scheduler/model/service/dio_service.dart';
+import 'package:scheduler/model/service/remote/api_error_handler.dart';
+import 'package:scheduler/model/service/remote/api_response.dart';
+import 'package:scheduler/model/service/remote/dio_service.dart';
+
 
 abstract class TimelineService{
   Future<ApiResponse> getAllData();

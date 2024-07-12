@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/custom_textform_field.dart';
 import 'package:scheduler/view/utils/text_style.dart';
@@ -21,16 +22,45 @@ class _AddNewState extends State<AddNew> {
 
   final TextEditingController onussedhWriteController = TextEditingController();
   final TextEditingController onussedhDescriptionController = TextEditingController();
-
+   final TextEditingController dateController = TextEditingController();
   String? selectedCategory;
   String? selectedLocation;
-  DateTime? selectedDateTime;
 
   @override
   void dispose() {
     onussedhWriteController.dispose();
     onussedhDescriptionController.dispose();
+    dateController.dispose();
     super.dispose();
+  }
+  Future<void> _selectDateTime(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        final DateTime finalDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        setState(() {
+          dateController.text = DateFormat('yyyy-MM-dd HH:mm').format(finalDateTime);
+        });
+      }
+    }
   }
 
   @override
@@ -133,46 +163,10 @@ class _AddNewState extends State<AddNew> {
               SizedBox(height: 5.h),
               GestureDetector(
                 onTap: () async {
-                  final selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                  );
-                  if (selectedDate != null) {
-                    final selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (selectedTime != null) {
-                      setState(() {
-                        selectedDateTime = DateTime(
-                          selectedDate.year,
-                          selectedDate.month,
-                          selectedDate.day,
-                          selectedTime.hour,
-                          selectedTime.minute,
-                        );
-                      });
-                    }
-                  }
+                  _selectDateTime(context);
                 },
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.colorWhite2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Text(
-                      selectedDateTime != null
-                          ? "${selectedDateTime!.day}/${selectedDateTime!.month}/${selectedDateTime!.year} ${selectedDateTime!.hour}:${selectedDateTime!.minute}"
-                          : 'নির্বাচন করুন',
-                      style: TextStyles.myCustomStyle(1.2, FontWeight.w400, 14.sp, AppColors.colorGrey),
-                    ),
-                  ),
-                ),
+                child: AbsorbPointer(child: CustomTextFormField(controller: dateController, hintText: 'নির্বাচন করুন', textInputTypeKeyboard: TextInputType.name,
+                )),
               ),
               SizedBox(height: 5.h),
               Text(
@@ -319,9 +313,9 @@ class _AddNewState extends State<AddNew> {
                       setState(() {
                         onussedhWriteController.clear();
                         onussedhDescriptionController.clear();
+                        dateController.clear();
                         selectedCategory = null;
                         selectedLocation = null;
-                        selectedDateTime = null;
                       });
                     },
                     child: Center(

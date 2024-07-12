@@ -1,10 +1,12 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduler/modules/auth/viewModel/auth_view_model.dart';
 import 'package:scheduler/modules/home/model/core/menu_model.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
-import 'package:scheduler/modules/timeline/view/timeline.dart';
 import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/text_style.dart';
 import 'package:scheduler/view/widgets/time_box.dart';
@@ -21,10 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isOn=true;
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeScreenViewModel>(
-      builder: (context,homeScreenViewModel,child) {
+    return Consumer2<HomeScreenViewModel,AuthViewModel>(
+      builder: (context,homeScreenViewModel,authViewModel,child) {
         final remainingTime=homeScreenViewModel.remainingTime;
         return Scaffold(
+          backgroundColor: AppColors.colorWhite2,
           appBar:
           AppBar(
             title: Image.asset(
@@ -115,9 +118,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: SizedBox(
                         height: 60.h,width: 60.w,
-                        child: CircleAvatar(
+                        child:authViewModel.profileImage != null ?
+                        CircleAvatar(
+                          backgroundImage: MemoryImage(base64Decode(authViewModel.profileImage!)),
+                        ): CircleAvatar(
                           backgroundColor: Colors.grey,
-                          child: ClipOval(child: Image.asset('assets/app_bar_icons/user.png')),
+                          child:ClipOval(child: Image.asset('assets/app_bar_icons/user.png')),
+                          //,
 
 
                         ),
@@ -128,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('মোঃ মোহাইমেনুল রেজা',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),),
+                          Text('${authViewModel.name}',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),),
                          SizedBox(
                            height: 38.h,
                            child: Column(
@@ -260,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 80.w,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(7.2),
-                            color:AppColors.colorWhite2
+                            color:Colors.white
 
                           ),
                           child: Column(
@@ -282,17 +289,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          drawer:  Drawer(
-            width: 300.w,
-            backgroundColor: AppColors.primaryColor,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> Timeline()));}, icon:Icon(Icons.settings)),
-                ],
-              ),
-            ),
-          ),
+          drawer: const Drawer(),
+
         );
       }
     );
@@ -333,4 +331,5 @@ class CircularProgressPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
 

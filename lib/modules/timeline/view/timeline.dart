@@ -41,6 +41,7 @@ class _TimelineState extends State<Timeline> {
           date.year == DateTime.now().year);
 
       return Scaffold(
+        backgroundColor: AppColors.colorWhite2,
         appBar: AppBar(
           title: Text(
             'সময়রেখা',
@@ -250,12 +251,12 @@ class _TimelineState extends State<Timeline> {
                                             children: [
                                               Text(
                                                 timelineViewModel.greeting(data.date.toString(), context)['period'] ?? 'Unknown time',
-                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.textColorBlue),
+                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
                                               ),
                                               SizedBox(height: 2.h,),
                                               Text(
                                                 "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'} মি.",
-                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.textColorBlue),
+                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
                                               ),
 
                                             ],
@@ -264,7 +265,6 @@ class _TimelineState extends State<Timeline> {
                                         Container(
                                         height: 150.h,
                                           width:207.w ,
-                                          // margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                                           decoration: BoxDecoration(
                                             color: index % 2 == 0 ?  AppColors.colorBlack : null,
                                             gradient: index % 2 == 0
@@ -273,7 +273,6 @@ class _TimelineState extends State<Timeline> {
                                             borderRadius: BorderRadius.circular(8.0),
                                           ),
                                           child: Padding(
-                                            // padding: const EdgeInsets.all(8.0),
                                             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +329,6 @@ class _TimelineState extends State<Timeline> {
           ),
         ),
         drawer: const Drawer(),
-        bottomNavigationBar: const BottomAppBar(),
       );
     });
   }
