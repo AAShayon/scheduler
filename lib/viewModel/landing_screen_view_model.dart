@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:scheduler/model/service/local/shared_preferences.dart';
 
 class LandingScreenViewModel extends ChangeNotifier {
 
