@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
  
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
@@ -36,27 +37,33 @@ class MyApp extends StatelessWidget {
           ],
           child: Consumer<HomeScreenViewModel>(
             builder: (context,homeScreenViewModel,child) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                scaffoldBackgroundColor: AppColors.colorWhite2,
-                primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
-                textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
-                appBarTheme: const AppBarTheme(
-                  color: AppColors.primaryColor,
-                ),
+              return StreamProvider<InternetConnectionStatus>(
+                initialData: InternetConnectionStatus.connected,
+                create: (_){
+                  return InternetConnectionChecker().onStatusChange;
+                },
+                child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  scaffoldBackgroundColor: AppColors.colorWhite2,
+                  primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
+                  textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
+                  appBarTheme: const AppBarTheme(
+                    color: AppColors.primaryColor,
+                  ),
 
-              ),
-                home: FutureBuilder(
-                  future: homeScreenViewModel.isLoggedIn(),
-                  builder: (context, AsyncSnapshot<bool> snapshot){
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return snapshot.data! ? LandingScreen() : const LoginPage();
-                  },
                 ),
+                  home: FutureBuilder(
+                    future: homeScreenViewModel.isLoggedIn(),
+                    builder: (context, AsyncSnapshot<bool> snapshot){
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return snapshot.data! ? LandingScreen() : const LoginPage();
+                    },
+                  ),
 
+                ),
               );
             }
           ),
