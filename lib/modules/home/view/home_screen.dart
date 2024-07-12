@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:scheduler/modules/home/model/core/menu_model.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/modules/timeline/view/timeline.dart';
+import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/text_style.dart';
 import 'package:scheduler/view/widgets/time_box.dart';
 
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     width:35.sp ,height: 35.sp,
                     decoration: BoxDecoration(
-                        color: Color(0xffF4F5F6),
+                        color:AppColors.containerBoxDecoration,
 
                         borderRadius: BorderRadius.circular(100)
                     ),
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 6.19.sp,
                               height: 6.19.sp,
                               decoration: BoxDecoration(
-                                color:Colors.red,
+                                color:AppColors.colorPink,
                                 borderRadius: BorderRadius.circular(100),
                               ),
                             ):SizedBox.shrink()
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 6.19.sp,
                               height: 6.19.sp,
                               decoration: BoxDecoration(
-                                color:Colors.red,
+                                color:AppColors.colorPink,
                                 borderRadius: BorderRadius.circular(100),
                               ),
                             ):SizedBox.shrink()
@@ -97,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 98.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
+                      color: AppColors.primaryColor,
 
                       boxShadow: [
                         BoxShadow(
@@ -127,20 +128,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('মোঃ মোহাইমেনুল রেজা',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,const Color(0xff202020)),),
+                          Text('মোঃ মোহাইমেনুল রেজা',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),),
                          SizedBox(
                            height: 38.h,
                            child: Column(
                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
-                               Text('সফটবিডি লিমিটেড',style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp,const Color(0xff6a6a6a),),),
+                               Text('সফটবিডি লিমিটেড',style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp,AppColors.colorGrey,),),
                                Row(
                                  mainAxisAlignment: MainAxisAlignment.start,
                                  crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
                                    Icon(Icons.location_on,color: Colors.black,size: 16.sp,),
-                                   Text('ঢাকা',style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, const Color(0xff6a6a6a)),)
+                                   Text('ঢাকা',style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey,),)
                                  ],
                                )
                              ],
@@ -173,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     left: 15.w,
                                     child: Text(
                                       homeScreenViewModel.elapsedTimeString,
-                                      style: TextStyles.myCustomStyle(1.42.sp, FontWeight.w600, 14.sp, const Color(0xff202020)),
+                                      style: TextStyles.myCustomStyle(1.42.sp, FontWeight.w600, 14.sp, AppColors.colorBlack),
                                     ),
                                   ),
 
@@ -182,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             SizedBox(height: 5.h,),
-                            Text('সময় অতিবাহিত',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp, const Color(0xff202020)),)
+                            Text('সময় অতিবাহিত',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorBlack),)
                           ],
                         ),
                         SizedBox(width: 20.w,),
@@ -194,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Text(
                                 'মেয়াদকাল',
-                                style: TextStyles.myCustomStyle(1.2, FontWeight.w700, 16.sp, const Color(0xff202020)),
+                                style: TextStyles.myCustomStyle(1.2, FontWeight.w700, 16.sp,  AppColors.colorBlack),
                               ),
                               SizedBox(height: 3.h,),
                               Row(
@@ -202,12 +203,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Icon(Icons.calendar_month,color: Colors.black,size: 14.sp,),
                                   Text(
                                     '১ই জানুয়ারি ২০২৪ - ৩১ই জানুয়ারি ২০৩০',
-                                    style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp, const Color(0xff202020)),
+                                    style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp,  AppColors.colorBlack),
                                   ),
                                 ],
                               ),
                               SizedBox(height: 10.h,),
-                              Text('আরও বাকি',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp, const Color(0xffff737a)),),
+                              Text('আরও বাকি',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorPink),),
                               SizedBox(height: 5.h,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -238,12 +239,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   ),
                   SizedBox(height: 20.h,),
-                  Container(
+                  SizedBox(
 
                     height: 272.h,
                     width: 327.w,
                     child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: menuImages.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -259,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 80.w,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(7.2),
-                            color: const Color(0xfff6f6f6),
+                            color:AppColors.colorWhite2
 
                           ),
                           child: Column(
@@ -267,9 +268,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Image.asset(menuImages[index].imageLink,height: 33.6.h,width: 32.7.w,),
                               SizedBox(height: 2.h,),
-                              Text('মেনু নং',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp, const Color(0xff202020)),),
+                              Text('মেনু নং',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
                               SizedBox(height: 2.h,),
-                              Text('০০০০১',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp, const Color(0xff202020)),),
+                              Text('০০০০১',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
                             ],
                           ),
                         );
@@ -283,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           drawer:  Drawer(
             width: 300.w,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.primaryColor,
             child: SafeArea(
               child: Column(
                 children: [
@@ -313,13 +314,7 @@ class CircularProgressPainter extends CustomPainter {
       ..strokeWidth = 10;
 
     final Paint progressPaint = Paint()
-      ..shader = const LinearGradient(
-        colors: [Color(0xff86B560), Color(0xff336F4A)],
-        stops: [0.0, 1.0],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomRight,
-
-      ).createShader(Rect.fromCircle(
+      ..shader = AppColors.linearGradient.createShader(Rect.fromCircle(
           center: Offset(size.width / 2, size.height / 2),
           radius: size.width / 2))
       ..style = PaintingStyle.stroke
