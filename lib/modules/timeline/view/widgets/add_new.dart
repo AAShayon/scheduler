@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
 import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/custom_textform_field.dart';
 import 'package:scheduler/view/utils/text_style.dart';
@@ -251,7 +253,17 @@ class _AddNewState extends State<AddNew> {
                 child: InkWell(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      _showSuccessDialog(context);
+                      Provider.of<TimelineViewModel>(context, listen: false).addNewEntry(
+                        {
+                          'onussedh': onussedhWriteController.text,
+                          'category': selectedCategory ?? '',
+                          'date': dateController.text,
+                          'location': selectedLocation ?? '',
+                          'description': onussedhDescriptionController.text,
+                        }
+                      ).then((isSave){
+                        _showSuccessDialog(context);
+                      });
                     } else {
                       log('Error');
                     }

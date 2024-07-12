@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    return snapshot.data! ? LandingScreen() : LoginPage();
+                    return snapshot.data! ? LandingScreen() : const LoginPage();
                   },
                 ),
 

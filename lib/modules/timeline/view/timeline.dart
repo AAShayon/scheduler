@@ -7,6 +7,7 @@ import 'package:scheduler/modules/timeline/view/widgets/add_new.dart';
 import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
 import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/text_style.dart';
+import 'package:scheduler/view/widgets/fade_in_animation.dart';
 
 class Timeline extends StatefulWidget {
   const Timeline({super.key});
@@ -174,24 +175,29 @@ class _TimelineState extends State<Timeline> {
                         itemBuilder: (context, index) {
                           final date = timelineViewModel.dateRange[index];
                           final dayName = timelineViewModel.banglaDays[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 2.w),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                    color: date.day == DateTime.now().day
-                                        ? Colors.green
-                                        : Colors.transparent,
-                                  )),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(dayName,
-                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
-                                  Text(timelineViewModel.getDayNumber(date),
-                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
-                                ],
+                          return FadeInAnimation(
+                            direction: FadeInDirection.rtl,
+                            delay: .5 + index,
+                            fadeOffset: index == 0 ? 80 : 80.0 * index,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 2.w),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      color: date.day == DateTime.now().day
+                                          ? Colors.green
+                                          : Colors.transparent,
+                                    )),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(dayName,
+                                        style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
+                                    Text(timelineViewModel.getDayNumber(date),
+                                        style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -202,7 +208,8 @@ class _TimelineState extends State<Timeline> {
               timelineViewModel.isLoading && timelineViewModel.allData == null
                   ? const CircularProgressIndicator()
                   : Expanded(
-                child: Container(
+                child:
+                Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
@@ -236,85 +243,90 @@ class _TimelineState extends State<Timeline> {
                                 allData.sort((a, b) => a.date!.compareTo(b.date!));
                                 final data=allData[index];
                                 log('total allData ${timelineViewModel.allData!.length}');
-                                return Container(
-                                  child: Padding(
-                                    padding:  EdgeInsets.symmetric(vertical: 10.h),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
+                                return FadeInAnimation(
+                                  direction: FadeInDirection.btt,
+                                  delay: .5 + index,
+                                  fadeOffset: index == 0 ? 80 : 80.0 * index,
+                                  child: Container(
+                                    child: Padding(
+                                      padding:  EdgeInsets.symmetric(vertical: 10.h),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
 
-                                        SizedBox(
-                                          width: 80.w,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                timelineViewModel.greeting(data.date.toString(), context)['period'] ?? 'Unknown time',
-                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
-                                              ),
-                                              SizedBox(height: 2.h,),
-                                              Text(
-                                                "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'} মি.",
-                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
-                                              ),
-
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                        height: 150.h,
-                                          width:207.w ,
-                                          decoration: BoxDecoration(
-                                            color: index % 2 == 0 ?  AppColors.colorBlack : null,
-                                            gradient: index % 2 == 0
-                                                ? null
-                                                : AppColors.linearGradient,
-                                            borderRadius: BorderRadius.circular(8.0),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                          SizedBox(
+                                            width: 80.w,
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                     const Icon(Icons.access_time, color: AppColors.primaryColor),
-                                                    SizedBox(width: 8.w),
-                                                    Text(
-                                                     "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'}মি.",
-                                                      style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 8.h),
-                                                Expanded(
-                                                  child: Text(
-                                                    "${data.name}",
-                                                      style: TextStyles.myCustomStyle(1.sp, FontWeight.w600, 14.sp, AppColors.colorWhite3),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 8.h),
                                                 Text(
-                                                  '${data.category}',
-                                                  style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
+                                                  timelineViewModel.greeting(data.date.toString(), context)['period'] ?? 'Unknown time',
+                                                  style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
                                                 ),
-                                                SizedBox(height: 8.h),
-                                                Row(
-                                                  children: [
-                                                    const Icon(Icons.location_on, color: Colors.white),
-                                                    SizedBox(width: 8.w),
-                                                    Text(
-                                                      '${data.location}',
-                                                      style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
-                                                    ),
-                                                  ],
+                                                SizedBox(height: 2.h,),
+                                                Text(
+                                                  "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'} মি.",
+                                                  style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
                                                 ),
+
                                               ],
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Container(
+                                          height: 150.h,
+                                            width:207.w ,
+                                            decoration: BoxDecoration(
+                                              color: index % 2 == 0 ?  AppColors.colorBlack : null,
+                                              gradient: index % 2 == 0
+                                                  ? null
+                                                  : AppColors.linearGradient,
+                                              borderRadius: BorderRadius.circular(8.0),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                       const Icon(Icons.access_time, color: AppColors.primaryColor),
+                                                      SizedBox(width: 8.w),
+                                                      Text(
+                                                       "${ timelineViewModel.greeting(data.date.toString(), context)['formattedTime'] ?? 'Unknown time'}মি.",
+                                                        style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 8.h),
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${data.name}",
+                                                        style: TextStyles.myCustomStyle(1.sp, FontWeight.w600, 14.sp, AppColors.colorWhite3),
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 8.h),
+                                                  Text(
+                                                    '${data.category}',
+                                                    style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
+                                                  ),
+                                                  SizedBox(height: 8.h),
+                                                  Row(
+                                                    children: [
+                                                      const Icon(Icons.location_on, color: Colors.white),
+                                                      SizedBox(width: 8.w),
+                                                      Text(
+                                                        '${data.location}',
+                                                        style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

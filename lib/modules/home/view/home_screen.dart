@@ -9,6 +9,7 @@ import 'package:scheduler/modules/home/model/core/menu_model.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/view/utils/colors.dart';
 import 'package:scheduler/view/utils/text_style.dart';
+import 'package:scheduler/view/widgets/fade_in_animation.dart';
 import 'package:scheduler/view/widgets/time_box.dart';
 
 
@@ -116,17 +117,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child: SizedBox(
-                        height: 60.h,width: 60.w,
-                        child:homeScreenViewModel.profileImage != null ?
-                        CircleAvatar(
-                          backgroundImage: MemoryImage(base64Decode(homeScreenViewModel.profileImage!)),
-                        ): CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          child:ClipOval(child: Image.asset('assets/app_bar_icons/user.png')),
-                          //,
+                      child: FadeInAnimation(
+                        delay: .9,
+                        direction: FadeInDirection.rtl,
+                        fadeOffset: 50,
+                        child: SizedBox(
+                          height: 60.h,width: 60.w,
+                          child:homeScreenViewModel.profileImage != null ?
+                          CircleAvatar(
+                            backgroundImage: MemoryImage(base64Decode(homeScreenViewModel.profileImage!)),
+                          ): CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            child:ClipOval(child: Image.asset('assets/app_bar_icons/user.png')),
+                            //,
 
 
+                          ),
                         ),
                       ),
 
@@ -135,7 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${homeScreenViewModel.name}',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),),
+                          FadeInAnimation(
+                          delay: .9,
+                          direction: FadeInDirection.rtl,
+                          fadeOffset: 50,
+                          child: Text('${homeScreenViewModel.name}',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),)),
                          SizedBox(
                            height: 38.h,
                            child: Column(
@@ -161,90 +171,95 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(height: 20.h,),
-                  SizedBox(
-                    height: 138.h,
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 108.h,
-                              width: 108.w,
-                              child: Stack(
-                                children: [
-                                  CustomPaint(
-                                    size: Size(108.w, 108.h),
-                                    painter: CircularProgressPainter(homeScreenViewModel.progress),
-                                  ),
-                                  Positioned(
-                                    top: 45.h,
-                                    left: 15.w,
-                                    child: Text(
-                                      homeScreenViewModel.elapsedTimeString,
-                                      style: TextStyles.myCustomStyle(1.42.sp, FontWeight.w600, 14.sp, AppColors.colorBlack),
-                                    ),
-                                  ),
-
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5.h,),
-                            Text('সময় অতিবাহিত',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorBlack),)
-                          ],
-                        ),
-                        SizedBox(width: 20.w,),
-                        Padding(
-                          padding:  EdgeInsets.only(top: 20.h),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  FadeInAnimation(
+                    delay: .9,
+                    direction: FadeInDirection.rtl,
+                    fadeOffset: 50,
+                    child: SizedBox(
+                      height: 138.h,
+                      child: Row(
+                        children: [
+                          Column(
                             children: [
-                              Text(
-                                'মেয়াদকাল',
-                                style: TextStyles.myCustomStyle(1.2, FontWeight.w700, 16.sp,  AppColors.colorBlack),
-                              ),
-                              SizedBox(height: 3.h,),
-                              Row(
-                                children: [
-                                  Icon(Icons.calendar_month,color: Colors.black,size: 14.sp,),
-                                  Text(
-                                    "${homeScreenViewModel.banglaStartDate} - ${homeScreenViewModel.banglaEndDate}",
-                                    style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp, AppColors.colorBlack),
-                                  ),
+                              SizedBox(
+                                height: 108.h,
+                                width: 108.w,
+                                child: Stack(
+                                  children: [
+                                    CustomPaint(
+                                      size: Size(108.w, 108.h),
+                                      painter: CircularProgressPainter(homeScreenViewModel.progress),
+                                    ),
+                                    Positioned(
+                                      top: 45.h,
+                                      left: 15.w,
+                                      child: Text(
+                                        homeScreenViewModel.elapsedTimeString,
+                                        style: TextStyles.myCustomStyle(1.42.sp, FontWeight.w600, 10.sp, AppColors.colorBlack),
+                                      ),
+                                    ),
 
-                                ],
+
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: 10.h,),
-                              Text('আরও বাকি',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorPink),),
                               SizedBox(height: 5.h,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                   TimeBoxWidget(timesName: 'বছর',subTimes:remainingTime['years'].toString().length > 1 ? homeScreenViewModel.convertToBanglaDigits(remainingTime['years'].toString().split('').first):homeScreenViewModel.convertToBanglaDigits('0') ,subTimes2: homeScreenViewModel.convertToBanglaDigits(remainingTime['years'].toString().split('').last),),
-                                  SizedBox(width: 15.w,),
-                                   TimeBoxWidget(timesName: 'মাস',subTimes:remainingTime['months'].toString().length >1 ? homeScreenViewModel.convertToBanglaDigits(remainingTime['months'].toString().split('').first):homeScreenViewModel.convertToBanglaDigits('0') ,subTimes2:homeScreenViewModel.convertToBanglaDigits(remainingTime['months'].toString().split('').last)
-                                   // '${remainingTime['months']}',
-
-                                   ),
-                                  SizedBox(width: 15.w,),
-                                   TimeBoxWidget(timesName: 'দিন',subTimes:remainingTime['days'].toString().length >1 ?  homeScreenViewModel
-                                       .convertToBanglaDigits(remainingTime['days']
-                                       .toString().split('').first):homeScreenViewModel.convertToBanglaDigits('0'),
-                                     subTimes2:homeScreenViewModel
-                                         .convertToBanglaDigits(remainingTime['days']
-                                         .toString().split('').last)
-                                     // '${remainingTime['days']}'
-                                     ,
-                                   ),
-                                ],
-                              )
+                              Text('সময় অতিবাহিত',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorBlack),)
                             ],
                           ),
-                        ),
-                      ],
-                    ),
+                          SizedBox(width: 20.w,),
+                          Padding(
+                            padding:  EdgeInsets.only(top: 20.h),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'মেয়াদকাল',
+                                  style: TextStyles.myCustomStyle(1.2, FontWeight.w700, 16.sp,  AppColors.colorBlack),
+                                ),
+                                SizedBox(height: 3.h,),
+                                Row(
+                                  children: [
+                                    Icon(Icons.calendar_month,color: Colors.black,size: 14.sp,),
+                                    Text(
+                                      "${homeScreenViewModel.banglaStartDate} - ${homeScreenViewModel.banglaEndDate}",
+                                      style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp, AppColors.colorBlack),
+                                    ),
 
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                Text('আরও বাকি',style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorPink),),
+                                SizedBox(height: 5.h,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                     TimeBoxWidget(timesName: 'বছর',subTimes:remainingTime['years'].toString().length > 1 ? homeScreenViewModel.convertToBanglaDigits(remainingTime['years'].toString().split('').first):homeScreenViewModel.convertToBanglaDigits('0') ,subTimes2: homeScreenViewModel.convertToBanglaDigits(remainingTime['years'].toString().split('').last),),
+                                    SizedBox(width: 15.w,),
+                                     TimeBoxWidget(timesName: 'মাস',subTimes:remainingTime['months'].toString().length >1 ? homeScreenViewModel.convertToBanglaDigits(remainingTime['months'].toString().split('').first):homeScreenViewModel.convertToBanglaDigits('0') ,subTimes2:homeScreenViewModel.convertToBanglaDigits(remainingTime['months'].toString().split('').last)
+                                     // '${remainingTime['months']}',
+
+                                     ),
+                                    SizedBox(width: 15.w,),
+                                     TimeBoxWidget(timesName: 'দিন',subTimes:remainingTime['days'].toString().length >1 ?  homeScreenViewModel
+                                         .convertToBanglaDigits(remainingTime['days']
+                                         .toString().split('').first):homeScreenViewModel.convertToBanglaDigits('0'),
+                                       subTimes2:homeScreenViewModel
+                                           .convertToBanglaDigits(remainingTime['days']
+                                           .toString().split('').last)
+                                       // '${remainingTime['days']}'
+                                       ,
+                                     ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    ),
                   ),
                   SizedBox(height: 20.h,),
                   SizedBox(
@@ -264,23 +279,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       itemBuilder: (context,index) {
                         String menuNumber =homeScreenViewModel.convertToBanglaDigits((index + 1).toString().padLeft(5, '0'));
-                        return Container(
-                          height: 124.h,
-                          width: 80.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7.2),
-                            color:Colors.white
+                        return FadeInAnimation(
+                          direction: FadeInDirection.rtl,
+                          delay: .5 + index,
+                          fadeOffset: index == 0 ? 80 : 80.0 * index,
+                          child: Container(
+                            height: 124.h,
+                            width: 80.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.2),
+                              color:Colors.white
 
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(menuImages[index].imageLink,height: 33.6.h,width: 32.7.w,),
-                              SizedBox(height: 2.h,),
-                              Text('মেনু নং',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
-                              SizedBox(height: 2.h,),
-                              Text(menuNumber,style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
-                            ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(menuImages[index].imageLink,height: 33.6.h,width: 32.7.w,),
+                                SizedBox(height: 2.h,),
+                                Text('মেনু নং',style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
+                                SizedBox(height: 2.h,),
+                                Text(menuNumber,style: TextStyles.myCustomStyle(1.4.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack),),
+                              ],
+                            ),
                           ),
                         );
                       }

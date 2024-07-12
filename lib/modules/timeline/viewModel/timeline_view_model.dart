@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduler/model/service/local/shared_preferences.dart';
 import 'package:scheduler/model/service/remote/api_response.dart';
 import 'package:scheduler/modules/timeline/model/response/all_data_response_model.dart';
 import 'package:scheduler/modules/timeline/model/service/timeline_data_service.dart';
 
 class TimelineViewModel extends ChangeNotifier {
   final TimelineService _timelineService = TimelineServiceRemoteDataSource();
+  final SharedPreService _storageService = SharedPreService();
+
+  List<Map<String, String>> _timelineEntries = [];
   bool _isLoading = false;
   AllDataResponseModel? _allDataResponseModel;
   List<Data> _allData = [];
@@ -17,6 +23,7 @@ class TimelineViewModel extends ChangeNotifier {
   String get todayDateInBangla => _todayDateInBangla;
   List<DateTime> get dateRange => _dateRange;
   List<String> get banglaDays => _banglaDays;
+  List<Map<String, String>> get timelineEntries => _timelineEntries;
 
   bool get isLoading => _isLoading;
   AllDataResponseModel? get allDataResponseModel => _allDataResponseModel;
@@ -122,5 +129,18 @@ class TimelineViewModel extends ChangeNotifier {
       notifyListeners();
     }
     return isGet;
+  }
+  Future<void> addNewEntry(Map<String, String> entry) async {
+    _timelineEntries.add(entry);
+    await _storageService.write(key: 'timelineEntries', value: jsonEncode(timelineEntries));
+    notifyListeners();
+  }
+
+  Future<void> loadTimelineData() async {
+    final storedData = await _storageService.read(key: 'timelineEntries') as String?;
+    if (storedData != null) {
+      _timelineEntries = List<Map<String, String>>.from(jsonDecode(storedData));
+    }
+    notifyListeners();
   }
 }
