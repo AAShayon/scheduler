@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduler/modules/auth/viewModel/auth_view_model.dart';
+ 
 import 'package:scheduler/modules/home/model/core/menu_model.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/view/utils/colors.dart';
@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isOn=true;
   @override
   Widget build(BuildContext context) {
-    return Consumer2<HomeScreenViewModel,AuthViewModel>(
-      builder: (context,homeScreenViewModel,authViewModel,child) {
+    return Consumer<HomeScreenViewModel>(
+      builder: (context,homeScreenViewModel,child) {
         final remainingTime=homeScreenViewModel.remainingTime;
         return Scaffold(
           backgroundColor: AppColors.colorWhite2,
@@ -118,9 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: SizedBox(
                         height: 60.h,width: 60.w,
-                        child:authViewModel.profileImage != null ?
+                        child:homeScreenViewModel.profileImage != null ?
                         CircleAvatar(
-                          backgroundImage: MemoryImage(base64Decode(authViewModel.profileImage!)),
+                          backgroundImage: MemoryImage(base64Decode(homeScreenViewModel.profileImage!)),
                         ): CircleAvatar(
                           backgroundColor: Colors.grey,
                           child:ClipOval(child: Image.asset('assets/app_bar_icons/user.png')),
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${authViewModel.name}',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),),
+                          Text('${homeScreenViewModel.name}',style:TextStyles.myCustomStyle( 1.4.sp, FontWeight.w700, 20.sp,AppColors.colorBlack),),
                          SizedBox(
                            height: 38.h,
                            child: Column(
@@ -209,9 +209,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Icon(Icons.calendar_month,color: Colors.black,size: 14.sp,),
                                   Text(
-                                    '১ই জানুয়ারি ২০২৪ - ৩১ই জানুয়ারি ২০৩০',
-                                    style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp,  AppColors.colorBlack),
+                                    "${homeScreenViewModel.banglaStartDate} - ${homeScreenViewModel.banglaEndDate}",
+                                    style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp, AppColors.colorBlack),
                                   ),
+
+                                  // Text(
+                                  //   '১ই জানুয়ারি ২০২৪ - ৩১ই জানুয়ারি ২০৩০',
+                                  //   style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w500, 11.sp,  AppColors.colorBlack),
+                                  // ),
                                 ],
                               ),
                               SizedBox(height: 10.h,),
@@ -307,7 +312,7 @@ class CircularProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint backgroundPaint = Paint()
-      ..color = const Color(0xFFF5F5F5)
+      ..color =  AppColors.primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10;
 
