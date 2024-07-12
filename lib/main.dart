@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:scheduler/modules/home/view/home_screen.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
+import 'package:scheduler/view/utils/colors.dart';
 
 void main(){
   runApp(const MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
             primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
             textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
             appBarTheme: AppBarTheme(
-              color: Colors.white,
+              color: AppColors.primaryColor,
             ),
 
           ),
