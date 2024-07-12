@@ -1,4 +1,4 @@
-# Scheduler App
+# Schedule Manager App
 Scheduler is a schedule manager application designed to help users manage their everyday tasks efficiently.
 
 ![intro](intro.mp4)
