@@ -2,6 +2,7 @@
 Scheduler is a schedule manager application designed to help users manage their everyday tasks efficiently.
 
 ![intro](intro.mp4)
+
 # Description
 Scheduler is designed to keep track of daily tasks. The app categorizes tasks and provides a user-friendly interface to manage them. Below are the main features:
 Splash Screen: The app opens with a splash screen, giving it a professional look and improving the user experience.
