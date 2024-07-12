@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                 GestureDetector(
                   onTap: () => _showPicker(context),
                   child: CircleAvatar(
-                    radius: 40,
+                    radius: 100,
                     backgroundImage: _profileImage != null ? FileImage(_profileImage!) : null,
                     child: _profileImage == null ? Icon(Icons.camera_alt, size: 40) : null,
                   ),
@@ -208,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       }
                     },
-                    child: Center(child: Text('Login', style: TextStyles.myCustomStyle(1.sp, FontWeight.w600, 18.sp, AppColors.colorWhite3))),
+                    child: Center(child: Text('লগইন', style: TextStyles.myCustomStyle(1.sp, FontWeight.w600, 18.sp, AppColors.colorWhite3))),
                   ),
                 ),
               ],
