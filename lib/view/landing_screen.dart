@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/modules/activities/view/activities.dart';
 import 'package:scheduler/modules/home/view/home_screen.dart';
@@ -37,7 +36,7 @@ class LandingScreen extends StatelessWidget {
           },
          child:Scaffold(
           body: _screens[landingScreenViewModel.currentIndex],
-          bottomNavigationBar:BottomNavBar(),
+          bottomNavigationBar:const BottomNavBar(),
         ));
       },
 

@@ -71,6 +71,7 @@ flutter:
     - assets/app_bar_icons/
     - assets/menu_icons/
     - assets/app_icons/
+    - assets/bottom_nav_bar_icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

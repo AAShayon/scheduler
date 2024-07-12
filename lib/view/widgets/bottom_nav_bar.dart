@@ -12,8 +12,8 @@ class BottomNavBar extends StatelessWidget {
     return Consumer<LandingScreenViewModel>(
      builder: (context ,landingScreenViewModel,child){
        return Container(
-         width: 375,
-         height: 99,
+         width: 375.w,
+         height: 100.h,
          decoration: const BoxDecoration(
            borderRadius: BorderRadius.only(
              topLeft: Radius.circular(10),
@@ -28,8 +28,8 @@ class BottomNavBar extends StatelessWidget {
                right: 0,
                bottom: 0,
                child: Container(
-                 width: 375,
-                 height: 75,
+                 width: 375.w,
+                 height: 75.h,
                  decoration:  const BoxDecoration(
                    color: AppColors.primaryColor,
                    borderRadius: BorderRadius.only(
@@ -40,52 +40,51 @@ class BottomNavBar extends StatelessWidget {
                  child: Row(
                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                    children: [
-                     IconButton(
-                       icon: const Icon(Icons.home),
-                       onPressed: () {
+                     InkWell(
+                       onTap: (){
                          landingScreenViewModel.updateIndex(0);
-
                        },
-                     ),
-                     IconButton(
-                       icon: const Icon(Icons.calendar_today),
-                       onPressed: () {
+                       child: Image.asset('assets/bottom_nav_bar_icons/home.png',height: 24.h,width: 24.w,),
+                     )
+                     ,
+                     InkWell(
+                       onTap: (){
                          landingScreenViewModel.updateIndex(1);
-
                        },
+                       child: Image.asset('assets/bottom_nav_bar_icons/calendar.png',height: 24.h,width: 24.w,),
                      ),
                      SizedBox(width: 56.w), // Placeholder for the middle button
-                     IconButton(
-                       icon: const Icon(Icons.list),
-                       onPressed: () {
+                     InkWell(
+                       onTap: (){
                          landingScreenViewModel.updateIndex(2);
                        },
+                       child: Image.asset('assets/bottom_nav_bar_icons/activities.png',height: 24.h,width: 24.w,),
                      ),
-                     IconButton(
-                       icon: const Icon(Icons.person),
-                       onPressed: () {
+                     InkWell(
+                       onTap: (){
                          landingScreenViewModel.updateIndex(3);
-
                        },
+                       child: Image.asset('assets/bottom_nav_bar_icons/user.png',height: 24.h,width: 24.w,),
                      ),
                    ],
                  ),
                ),
              ),
              Positioned(
-               left: 159.w,
-               bottom: 28.h, // Adjusted to align with the container's height
+               left: 150.w,
+               bottom: 35.h, // Adjusted to align with the container's height
                child: Container(
-                 width: 58.sp,
-                 height: 58.sp,
+                 width: 66.sp,
+                 height: 66.sp,
                  decoration: BoxDecoration(
                      color: AppColors.colorWhite2,
-                     borderRadius: BorderRadius.circular(100)
+                     borderRadius: BorderRadius.circular(100),
+
                  ),
                  child: Padding(
                    padding:  EdgeInsets.symmetric(vertical: 4.h,horizontal:4.w),
                    child: Container(
-                     height: 56.sp,width: 56.sp,
+                     height: 60.sp,width: 60.sp,
                      decoration: BoxDecoration(
                        shape: BoxShape.circle,
                        gradient: const LinearGradient(
