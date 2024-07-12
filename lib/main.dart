@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:scheduler/modules/home/view/home_screen.dart';
+import 'package:scheduler/modules/auth/viewModel/auth_view_model.dart';
 import 'package:scheduler/modules/home/viewModel/home_screen_view_model.dart';
 import 'package:scheduler/modules/timeline/viewModel/timeline_view_model.dart';
+import 'package:scheduler/view/landing_screen.dart';
 import 'package:scheduler/view/utils/colors.dart';
+import 'package:scheduler/view/widgets/login_page.dart';
+import 'package:scheduler/viewModel/landing_screen_view_model.dart';
 
 void main(){
   runApp(const MyApp());
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.white));
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
-    
+
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,
@@ -27,21 +30,35 @@ class MyApp extends StatelessWidget {
       builder: (context ,child){
         return MultiProvider(
           providers: [
+            ChangeNotifierProvider(create: (context)=>LandingScreenViewModel()),
+            ChangeNotifierProvider(create: (context)=>AuthViewModel()),
             ChangeNotifierProvider(create: (context)=>HomeScreenViewModel()),
             ChangeNotifierProvider(create: (context)=>TimelineViewModel())
           ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
-            textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
-            appBarTheme: AppBarTheme(
-              color: AppColors.primaryColor,
-            ),
+          child: Consumer<AuthViewModel>(
+            builder: (context,authViewModel,child) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                scaffoldBackgroundColor: AppColors.colorWhite2,
+                primaryTextTheme: GoogleFonts.notoSerifBengaliTextTheme(),
+                textTheme: GoogleFonts.notoSerifBengaliTextTheme(),
+                appBarTheme: const AppBarTheme(
+                  color: AppColors.primaryColor,
+                ),
 
-          ),
-            home:const HomeScreen(),
+              ),
+                home: FutureBuilder(
+                  future: authViewModel.isLoggedIn(),
+                  builder: (context, AsyncSnapshot<bool> snapshot){
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return snapshot.data! ? LandingScreen() : LoginPage();
+                  },
+                ),
+              );
+            }
           ),
         );
       },
