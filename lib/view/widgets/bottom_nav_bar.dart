@@ -98,10 +98,13 @@ class BottomNavBar extends StatelessWidget {
                          ),
                        ],
                      ),
-                     child: IconButton(
-                       icon: const Icon(Icons.camera_alt, color: Colors.white),
-                       onPressed: () {},
+                     child:    InkWell(
+                       onTap: (){
+                       },
+                       child: Image.asset('assets/bottom_nav_bar_icons/camera.png',height: 24.h,width: 24.w,),
                      ),
+
+
                    ),
                  ),
                ),
