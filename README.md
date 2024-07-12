@@ -5,6 +5,8 @@ Scheduler is a schedule manager application designed to help users manage their 
 
 # Description
 Scheduler is designed to keep track of daily tasks. The app categorizes tasks and provides a user-friendly interface to manage them. Below are the main features:
+
+# Features 
 Splash Screen: The app opens with a splash screen, giving it a professional look and improving the user experience.
 App Icons: Custom app icons are used to give the app a unique identity.
 User Authentication: Secure login where the user must enter their name, job start date, and end date. For identification, the user must also provide an image, which can be captured using the camera or selected from the gallery.
@@ -93,3 +95,7 @@ User Page: Contains user information and a logout button.
       ├── pubspec.yaml
       ├── README.md
       └── scheduler.iml
+
+
+APK 
+Download [Schedule Manager APK](https://drive.google.com/file/d/10vrvxlYW8mREzUMwIVbBidDgKuXDdeG-/view?usp=sharing)
