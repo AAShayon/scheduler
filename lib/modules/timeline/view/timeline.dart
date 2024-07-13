@@ -1,5 +1,6 @@
 
 import 'dart:developer';
+import 'package:any_image_view/any_image_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -41,10 +42,6 @@ class _TimelineState extends State<Timeline> {
     @override
   Widget build(BuildContext context) {
     return Consumer<TimelineViewModel>(builder: (context, timelineViewModel, child) {
-      int currentIndex = timelineViewModel.dateRange.indexWhere((date) =>
-      date.day == DateTime.now().day &&
-          date.month == DateTime.now().month &&
-          date.year == DateTime.now().year);
 
       return RefreshIndicator(
         onRefresh: ()async{
@@ -172,13 +169,10 @@ class _TimelineState extends State<Timeline> {
                               blurRadius: 6,
                               offset: const Offset(0, 0))
                         ]),
-                    child: Padding(
+                    child:  timelineViewModel.isLoading
+                        ? Center(child: CircularProgressIndicator()): Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                       child: GridView.builder(
-                          controller: ScrollController(
-                            initialScrollOffset: currentIndex * (80 + 10).toDouble(),
-                            keepScrollOffset: true,
-                          ),
                           itemCount: timelineViewModel.dateRange.length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
@@ -188,7 +182,7 @@ class _TimelineState extends State<Timeline> {
                             childAspectRatio: 130 / 62.69,
                           ),
                           itemBuilder: (context, index) {
-                            final date = timelineViewModel.dateRange[index];
+                            DateTime date = DateTime.now().subtract(Duration(days: 7 - index));
                             final dayName = timelineViewModel.banglaDays[index];
                             return FadeInAnimation(
                               direction: FadeInDirection.rtl,
@@ -196,22 +190,23 @@ class _TimelineState extends State<Timeline> {
                               fadeOffset: index == 0 ? 80 : 80.0 * index,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 2.w),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: Border.all(
-                                        color: date.day == DateTime.now().day
-                                            ? Colors.green
-                                            : Colors.transparent,
-                                      )),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(dayName,
-                                          style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
-                                      Text(timelineViewModel.getDayNumber(date),
-                                          style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
-                                    ],
+                                child: GestureDetector(
+                                  onTap: () => timelineViewModel.setDate(date),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        border: Border.all(
+                                          color: date.day == timelineViewModel.selectedDate.day ? Colors.green : Colors.transparent,
+                                        )),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(dayName,
+                                            style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
+                                        Text(timelineViewModel.getDayNumber(date),
+                                            style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -221,7 +216,7 @@ class _TimelineState extends State<Timeline> {
 
                 SizedBox(height: 20.h),
                 !timelineViewModel.isLoading && timelineViewModel.allData != null
-                    ?  Expanded(child: Container(
+                    ? timelineViewModel.allData.isNotEmpty ? Expanded(child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
@@ -349,6 +344,15 @@ class _TimelineState extends State<Timeline> {
                     ),
                   ),
                 ):Center(child: Padding(
+                  padding:  EdgeInsets.symmetric(vertical: 70.h),
+                  child: Column(
+                    children: [
+                     Center(child: AnyImageView(imagePath: 'assets/app_icons/sad.json',height: 250.h,width: 250.w,)),
+                      SizedBox(height: 20.h,),
+                      Text('কোনো কার্যক্রম লিপিবদ্ধ নেই',style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey))
+                    ],
+                  ),
+                )):Center(child: Padding(
                   padding:  EdgeInsets.symmetric(vertical: 70.h),
                   child: Column(
                     children: [

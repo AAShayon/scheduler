@@ -16,6 +16,13 @@ class TimelineViewModel extends ChangeNotifier {
   AllDataResponseModel? _allDataResponseModel;
   List<Data> _allData = [];
 
+  DateTime _selectedDate = DateTime.now();
+
+  void setDate(DateTime date) {
+    _selectedDate = date;
+    notifyListeners();
+  }
+
   String _todayDateInBangla = '';
   List<DateTime> _dateRange = [];
   List<String> _banglaDays = [];
@@ -24,10 +31,11 @@ class TimelineViewModel extends ChangeNotifier {
   List<DateTime> get dateRange => _dateRange;
   List<String> get banglaDays => _banglaDays;
   List<Map<String, String>> get timelineEntries => _timelineEntries;
+  DateTime get selectedDate => _selectedDate;
 
   bool get isLoading => _isLoading;
   AllDataResponseModel? get allDataResponseModel => _allDataResponseModel;
-  List<Data>? get allData => _allData;
+  List<Data> get allData => _allData.where((data) => _isSameDate('${data.date}')).toList();
 
   void updateDate() {
     final now = DateTime.now();
@@ -88,15 +96,35 @@ class TimelineViewModel extends ChangeNotifier {
     if (timestamp == null) {
       return {'period': 'Unknown time', 'formattedTime': 'Unknown time'};
     }
+
     final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
     final timeOfDay = TimeOfDay.fromDateTime(dateTime);
-    final period = timeOfDay.period == DayPeriod.am
-        ? 'সকাল'
-        : (timeOfDay.hour < 16 ? 'দুপুর' : (timeOfDay.hour < 20 ? 'বিকেল' : (timeOfDay.hour < 22 ? 'সন্ধা' : 'রাত')));
-    final formattedTime = convertToBanglaDigits(timeOfDay.format(context).replaceAll(RegExp(r'[apAP][mM]'),''));
+    final hour = timeOfDay.hour;
+
+    String period;
+    if (hour < 6) {
+      period = 'রাত';
+    } else if (hour < 12) {
+      period = 'সকাল';
+    } else if (hour < 16) {
+      period = 'দুপুর';
+    } else if (hour < 18) {
+      period = 'বিকেল';
+    } else if (hour < 20) {
+      period = 'সন্ধ্যা';
+    } else {
+      period = 'রাত';
+    }
+
+    final formattedTime = convertToBanglaDigits(timeOfDay.format(context).replaceAll(RegExp(r'[apAP][mM]'), ''));
     return {'period': period, 'formattedTime': formattedTime};
   }
 
+  bool _isSameDate(String timestamp) {
+    int parsedTimestamp = int.tryParse(timestamp) ?? 0;
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(parsedTimestamp * 1000).toLocal();
+    return date.year == _selectedDate.year && date.month == _selectedDate.month && date.day == _selectedDate.day;
+  }
 
   Future<bool> getAllData(BuildContext context) async {
     bool isGet = false;
