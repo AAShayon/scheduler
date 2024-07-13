@@ -22,7 +22,10 @@ class TimelineViewModel extends ChangeNotifier {
     _selectedDate = date;
     notifyListeners();
   }
-
+  void setDateLocal(DateTime date) {
+    _selectedDate = date;
+    notifyListeners();
+  }
   String _todayDateInBangla = '';
   List<DateTime> _dateRange = [];
   List<String> _banglaDays = [];
@@ -72,12 +75,12 @@ class TimelineViewModel extends ChangeNotifier {
   void generateDateRange() {
     final now = DateTime.now();
     final startDate = now.subtract(Duration(days: 6));
-    _dateRange = List<DateTime>.generate(13, (index) => startDate.add(Duration(days: index)));
+    _dateRange = List<DateTime>.generate(14, (index) => startDate.add(Duration(days: index)));
     notifyListeners();
   }
 
   void generateBanglaDays() {
-    const banglaDays = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ:', 'শুক্র', 'শনি'];
+    const banglaDays = ['শনি','রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ:', 'শুক্র', ];
     _banglaDays = _dateRange.map((date) {
       final dayIndex = date.weekday % 7;
       return banglaDays[dayIndex];

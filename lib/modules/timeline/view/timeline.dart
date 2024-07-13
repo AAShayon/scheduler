@@ -170,7 +170,7 @@ class _TimelineState extends State<Timeline> {
                               offset: const Offset(0, 0))
                         ]),
                     child:  timelineViewModel.isLoading
-                        ? Center(child: CircularProgressIndicator()): Padding(
+                        ? Center(child: CircularProgressIndicator(backgroundColor: AppColors.colorBlack,)): Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                       child: GridView.builder(
                           itemCount: timelineViewModel.dateRange.length,
@@ -186,7 +186,7 @@ class _TimelineState extends State<Timeline> {
                             final dayName = timelineViewModel.banglaDays[index];
                             return FadeInAnimation(
                               direction: FadeInDirection.rtl,
-                              delay: .5 + index,
+                              delay: .2 + index,
                               fadeOffset: index == 0 ? 80 : 80.0 * index,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 2.w),

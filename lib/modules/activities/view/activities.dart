@@ -1,3 +1,4 @@
+import 'package:any_image_view/any_image_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -144,7 +145,8 @@ class _ActivitiesState extends State<Activities> {
                             blurRadius: 6,
                             offset: const Offset(0, 0))
                       ]),
-                  child: Padding(
+                  child: timelineViewModel.isLoading
+                      ? Center(child: CircularProgressIndicator(backgroundColor: AppColors.colorBlack,)):  Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
                     child: GridView.builder(
                         controller: ScrollController(
@@ -160,30 +162,31 @@ class _ActivitiesState extends State<Activities> {
                           childAspectRatio: 130 / 62.69,
                         ),
                         itemBuilder: (context, index) {
-                          final date = timelineViewModel.dateRange[index];
+                          DateTime date = DateTime.now().subtract(Duration(days: 7 - index));
                           final dayName = timelineViewModel.banglaDays[index];
                           return FadeInAnimation(
                             direction: FadeInDirection.rtl,
-                            delay: .5 + index,
+                            delay: .2 + index,
                             fadeOffset: index == 0 ? 80 : 80.0 * index,
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 2.w),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      color: date.day == DateTime.now().day
-                                          ? Colors.green
-                                          : Colors.transparent,
-                                    )),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(dayName,
-                                        style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
-                                    Text(timelineViewModel.getDayNumber(date),
-                                        style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
-                                  ],
+                              child: GestureDetector(
+                                onTap: () => timelineViewModel.setDateLocal(date),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      border: Border.all(
+                                        color: date.day == timelineViewModel.selectedDate.day ? Colors.green : Colors.transparent,
+                                      )),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(dayName,
+                                          style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey)),
+                                      Text(timelineViewModel.getDayNumber(date),
+                                          style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w600, 16.sp,  AppColors.colorBlack)),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -218,6 +221,8 @@ class _ActivitiesState extends State<Activities> {
                            style: TextStyles.myCustomStyle(1.4, FontWeight.w700, 16.sp,  AppColors.colorBlack),
                          ),
                          SizedBox(height: 10.h),
+                         !timelineViewModel.isLoading && timelineViewModel.timelineEntries.isNotEmpty
+                             ?
                          Expanded(
                            child:
                            ListView.builder(
@@ -310,7 +315,16 @@ class _ActivitiesState extends State<Activities> {
                                );
                              },
                            ),
-                         ),
+                         ):Center(child: Padding(
+                           padding:  EdgeInsets.symmetric(vertical: 70.h),
+                           child: Column(
+                             children: [
+                               Center(child: AnyImageView(imagePath: 'assets/app_icons/sad.json',height: 200.h,width: 250.w,)),
+                               SizedBox(height: 20.h,),
+                               Text('কোনো কার্যক্রম লিপিবদ্ধ নেই',style: TextStyles.myCustomStyle(1.2.sp, FontWeight.w400, 14.sp, AppColors.colorGrey))
+                             ],
+                           ),
+                         )),
                        ],
                      ),
                    ),
@@ -324,94 +338,3 @@ class _ActivitiesState extends State<Activities> {
     });
   }
 }
-
-
-// ListView.builder(
-//                                itemCount: timelineViewModel.timelineEntries.length,
-//                                shrinkWrap: true,
-//                                itemBuilder: (context, index) {
-//                                  final data = timelineViewModel.timelineEntries[index];
-//                                  return Container(
-//                     child: Padding(
-//                       padding:  EdgeInsets.symmetric(vertical: 10.h),
-//                       child: Row(
-//                         crossAxisAlignment: CrossAxisAlignment.center,
-//                         children: [
-//
-//                           SizedBox(
-//                             width: 80.w,
-//                             child: Column(
-//                               crossAxisAlignment: CrossAxisAlignment.center,
-//                               mainAxisAlignment: MainAxisAlignment.start,
-//                               children: [
-//                                 Text(
-//                                   "${data['date']}",
-//                                   style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
-//                                 ),
-//                                 SizedBox(height: 2.h,),
-//                                 Text(
-//                                   "${data['date']}",
-//                                   style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
-//                                 ),
-//
-//                               ],
-//                             ),
-//                           ),
-//                           Container(
-//                             height: 150.h,
-//                             width:207.w ,
-//                             decoration: BoxDecoration(
-//                               color: index % 2 == 0 ?  AppColors.colorBlack : null,
-//                               gradient: index % 2 == 0
-//                                   ? null
-//                                   : AppColors.linearGradient,
-//                               borderRadius: BorderRadius.circular(8.0),
-//                             ),
-//                             child: Padding(
-//                               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: [
-//                                   Row(
-//                                     children: [
-//                                       const Icon(Icons.access_time, color: AppColors.primaryColor),
-//                                       SizedBox(width: 8.w),
-//                                       Text(
-//                                         "${data['date']}",
-//                                         style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   SizedBox(height: 8.h),
-//                                   Expanded(
-//                                     child: Text(
-//                                       "${data['description']}",
-//                                       style: TextStyles.myCustomStyle(1.sp, FontWeight.w600, 14.sp, AppColors.colorWhite3),
-//                                     ),
-//                                   ),
-//                                   SizedBox(height: 8.h),
-//                                   Text(
-//                                     '${data['category']}',
-//                                     style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
-//                                   ),
-//                                   SizedBox(height: 8.h),
-//                                   Row(
-//                                     children: [
-//                                       const Icon(Icons.location_on, color: Colors.white),
-//                                       SizedBox(width: 8.w),
-//                                       Text(
-//                                         '${data['location']}',
-//                                         style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                                  );
-//                                },
-//                              ),
