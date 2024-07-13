@@ -98,4 +98,4 @@ User Page: Contains user information and a logout button.
 
 
 APK 
-Download [Schedule Manager APK](https://drive.google.com/file/d/10vrvxlYW8mREzUMwIVbBidDgKuXDdeG-/view?usp=sharing)
+Download [Schedule Manager APK](https://drive.google.com/file/d/14771TUuCsPHb-Q4RX-9vtq6NqJ3fvW0d/view?usp=sharing)
