@@ -99,8 +99,7 @@ class TimelineViewModel extends ChangeNotifier {
     if (timestamp == null) {
       return {'period': 'Unknown time', 'formattedTime': 'Unknown time'};
     }
-
-    final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
+    final dateTime = DateTime.parse(timestamp);
     final timeOfDay = TimeOfDay.fromDateTime(dateTime);
     final hour = timeOfDay.hour;
 
@@ -170,7 +169,14 @@ class TimelineViewModel extends ChangeNotifier {
   Future<void> loadTimelineData() async {
     final storedData = await _storageService.read(key: 'timelineEntries') as String?;
     if (storedData != null) {
-      _timelineEntries = List<Map<String, String>>.from(jsonDecode(storedData));
+      _timelineEntries =await List<Map<String, String>>.from(jsonDecode(storedData));
+      // Ensure that all timestamps are in the correct format
+      for (var entry in _timelineEntries) {
+        if (entry.containsKey('date') && !RegExp(r'^\d+$').hasMatch(entry['date']!)) {
+          // Convert to a valid timestamp format if necessary
+          entry['date'] = DateTime.parse(entry['date']!).millisecondsSinceEpoch.toString();
+        }
+      }
     }
     notifyListeners();
   }

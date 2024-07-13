@@ -18,7 +18,16 @@ class Activities extends StatefulWidget {
 
 class _ActivitiesState extends State<Activities> {
   bool isOn = true;
+ @override
+  void initState() {
 
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      final timelineViewModel = Provider.of<TimelineViewModel>(
+          context, listen: false);
+      timelineViewModel.loadTimelineData();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<TimelineViewModel>(
@@ -245,12 +254,12 @@ class _ActivitiesState extends State<Activities> {
                                            children: [
 
                                              Text(
-                                               "${data['date']!.split(' ').first}",
+                                               "${timelineViewModel.greeting(data['date']!, context)['period'] ?? 'Unknown time'}",
                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
                                              ),
                                              SizedBox(height: 20.h,),
                                              Text(
-                                               "${data['date']!.split(' ').last}",
+                                                 "${ timelineViewModel.greeting(data['date']!, context)['formattedTime'] ?? 'Unknown time'} মি.",
                                                style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp,index % 2 == 0 ?  AppColors.colorBlack : AppColors.textColorBlue),
                                              ),
 
@@ -276,8 +285,10 @@ class _ActivitiesState extends State<Activities> {
                                                  children: [
                                                    const Icon(Icons.access_time, color: AppColors.primaryColor),
                                                    SizedBox(width: 8.w),
+
                                                    Text(
-                                                     "${data['date']}",
+                                                     "${ timelineViewModel.greeting(data['date'], context)['formattedTime'] ?? 'Unknown time'}মি.",
+                                                     // "${data['date']}",
                                                      style: TextStyles.myCustomStyle(.9.sp, FontWeight.w500, 12.sp, AppColors.colorWhite3),
                                                    ),
                                                  ],
