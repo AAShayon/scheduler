@@ -63,8 +63,8 @@ flutter_launcher_icons:
   # rules and activating additional
   flutter_lints: ^3.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+# For information on the generic Dart part of this file, seethe
+# following page: https://dart.dev/tools/pub/pubspe
 
 # The following section is specific to Flutter packages.
 flutter:
