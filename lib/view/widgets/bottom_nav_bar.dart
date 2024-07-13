@@ -82,9 +82,9 @@ class BottomNavBar extends StatelessWidget {
 
                  ),
                  child: Padding(
-                   padding:  EdgeInsets.symmetric(vertical: 4.h,horizontal:4.w),
+                   padding:  EdgeInsets.symmetric(vertical: 5.h,horizontal:5.w),
                    child: Container(
-                     height: 60.sp,width: 60.sp,
+                     height: 55.sp,width: 55.sp,
                      decoration: BoxDecoration(
                        shape: BoxShape.circle,
                        gradient: const LinearGradient(
@@ -101,7 +101,10 @@ class BottomNavBar extends StatelessWidget {
                      child:    InkWell(
                        onTap: (){
                        },
-                       child: Image.asset('assets/bottom_nav_bar_icons/camera.png',height: 24.h,width: 24.w,),
+                       child: Padding(
+                         padding:  EdgeInsets.symmetric(vertical: 5.h,horizontal: 5.w),
+                         child: Image.asset('assets/bottom_nav_bar_icons/camera.png',height: 24.h,width: 24.w,),
+                       ),
                      ),
 
 
